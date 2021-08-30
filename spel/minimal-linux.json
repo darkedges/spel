@@ -1,6 +1,5 @@
 {
-    "builders": [
-        {
+    "builders": [{
             "boot_command": [
                 "<esc><wait>",
                 "linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks.centos7.minimal.cfg VAGRANT",
@@ -27,61 +26,69 @@
             "vm_name": "{{ user `spel_identifier` }}-{{ build_name }}-{{ user `spel_version` }}"
         },
         {
-            "ami_description": "STIG-partitioned [*NOT HARDENED*], LVM-enabled, \"minimal\" CentOS 7 AMI, with updates through {{ isotime \"2006-01-02\" }}. Default username `maintuser`. See {{ user `spel_desc_url` }}.",
+            "ami_description": "{{ user `ami_description` }}",
             "ami_groups": "{{ user `ami_groups` }}",
             "ami_name": "{{ user `spel_identifier` }}-{{ build_name }}-{{ user `spel_version` }}.x86_64-gp2",
             "ami_regions": "{{ user `ami_regions` }}",
             "ami_users": "{{ user `ami_users` }}",
-            "associate_public_ip_address": true,
+            "associate_public_ip_address": "{{ user `aws_assoc_public_ip` }}",
             "communicator": "ssh",
-            "ena_support": true,
+            "ena_support": "{{ user `aws_ena_support` }}",
             "force_deregister": "{{ user `ami_force_deregister` }}",
             "instance_type": "{{ user `aws_ec2_instance_type` }}",
-            "launch_block_device_mappings": [
-                {
-                    "delete_on_termination": true,
-                    "device_name": "/dev/sda1",
-                    "volume_size": "{{ user `root_volume_size` }}",
-                    "volume_type": "gp2"
-                }
-            ],
+            "launch_block_device_mappings": [{
+                "delete_on_termination": true,
+                "device_name": "/dev/sda1",
+                "volume_size": "{{ user `root_volume_size` }}",
+                "volume_type": "gp2"
+            }],
             "name": "minimal-centos-7-hvm",
             "region": "{{ user `aws_region` }}",
+            "run_tags": {
+                "Application": "packer",
+                "Environment": "build",
+                "Name": "{{ user `ami_description` }}-{{ isotime | clean_resource_name }}",
+                "Owner": "{{ user `owner` }}"
+            },
+            "security_group_id": "{{ user `aws_security_group_id` }}",
             "source_ami": "{{ user `source_ami_centos7_hvm` }}",
-            "sriov_support": true,
+            "sriov_support": "{{ user `aws_sriov_support` }}",
             "ssh_interface": "{{ user `ssh_interface` }}",
             "ssh_port": 22,
             "ssh_pty": true,
             "ssh_timeout": "60m",
             "ssh_username": "spel",
             "subnet_id": "{{ user `subnet_id` }}",
-            "temporary_security_group_source_cidrs": "{{ user `security_group_cidrs` }}",
             "type": "amazon-ebs",
             "user_data_file": "{{ template_dir }}/userdata/userdata.cloud"
         },
         {
-            "ami_description": "STIG-partitioned [*NOT HARDENED*], LVM-enabled, \"minimal\" RHEL 7 AMI (yum and license chargeback included) with updates through {{ isotime \"2006-01-02\" }}. Default username `maintuser`. See {{ user `spel_desc_url` }}.",
+            "ami_description": "{{ user `ami_description` }}",
             "ami_groups": "{{ user `ami_groups` }}",
             "ami_name": "{{ user `spel_identifier` }}-{{ build_name }}-{{ user `spel_version` }}.x86_64-gp2",
             "ami_regions": "{{ user `ami_regions` }}",
             "ami_users": "{{ user `ami_users` }}",
             "associate_public_ip_address": true,
             "communicator": "ssh",
-            "ena_support": true,
+            "ena_support": "{{ user `aws_ena_support` }}",
             "force_deregister": "{{ user `ami_force_deregister` }}",
             "instance_type": "{{ user `aws_ec2_instance_type` }}",
-            "launch_block_device_mappings": [
-                {
-                    "delete_on_termination": true,
-                    "device_name": "/dev/sda1",
-                    "volume_size": "{{ user `root_volume_size` }}",
-                    "volume_type": "gp2"
-                }
-            ],
+            "launch_block_device_mappings": [{
+                "delete_on_termination": true,
+                "device_name": "/dev/sda1",
+                "volume_size": "{{ user `root_volume_size` }}",
+                "volume_type": "gp2"
+            }],
             "name": "minimal-rhel-7-hvm",
             "region": "{{ user `aws_region` }}",
+            "run_tags": {
+                "Application": "packer",
+                "Environment": "build",
+                "Name": "{{ user `ami_description` }}-{{ isotime | clean_resource_name }}",
+                "Owner": "{{ user `owner` }}"
+            },
             "source_ami": "{{ user `source_ami_rhel7_hvm` }}",
-            "sriov_support": true,
+            "sriov_support": "{{ user `aws_sriov_support` }}",
             "ssh_interface": "{{ user `ssh_interface` }}",
             "ssh_port": 22,
             "ssh_pty": true,
@@ -144,61 +151,70 @@
             "vm_size": "{{ user `azure_vm_size` }}"
         },
         {
-            "ami_description": "STIG-partitioned [*NOT HARDENED*], LVM-enabled, \"minimal\" CentOS 8 AMI, with updates through {{ isotime \"2006-01-02\" }}. Default username `maintuser`. See {{ user `spel_desc_url` }}.",
+            "ami_description": "{{ user `ami_description` }}",
             "ami_groups": "{{ user `ami_groups` }}",
             "ami_name": "{{ user `spel_identifier` }}-{{ build_name }}-{{ user `spel_version` }}.x86_64-gp2",
             "ami_regions": "{{ user `ami_regions` }}",
             "ami_users": "{{ user `ami_users` }}",
-            "associate_public_ip_address": true,
+            "associate_public_ip_address": "{{ user `aws_assoc_public_ip` }}",
             "communicator": "ssh",
-            "ena_support": true,
+            "ena_support": "{{ user `aws_ena_support` }}",
             "force_deregister": "{{ user `ami_force_deregister` }}",
             "instance_type": "{{ user `aws_ec2_instance_type` }}",
-            "launch_block_device_mappings": [
-                {
-                    "delete_on_termination": true,
-                    "device_name": "/dev/sda1",
-                    "volume_size": "{{ user `root_volume_size` }}",
-                    "volume_type": "gp2"
-                }
-            ],
+            "launch_block_device_mappings": [{
+                "delete_on_termination": true,
+                "device_name": "/dev/sda1",
+                "volume_size": "{{ user `root_volume_size` }}",
+                "volume_type": "gp2"
+            }],
             "name": "minimal-centos-8-hvm",
             "region": "{{ user `aws_region` }}",
+            "run_tags": {
+                "Application": "packer",
+                "Environment": "build",
+                "Name": "{{ user `ami_description` }}-{{ isotime | clean_resource_name }}",
+                "Owner": "{{ user `owner` }}"
+            },
+            "security_group_id": "{{ user `aws_security_group_id` }}",
             "source_ami": "{{ user `source_ami_centos8_hvm` }}",
-            "sriov_support": true,
+            "sriov_support": "{{ user `aws_sriov_support` }}",
             "ssh_interface": "{{ user `ssh_interface` }}",
             "ssh_port": 22,
             "ssh_pty": true,
             "ssh_timeout": "60m",
             "ssh_username": "spel",
             "subnet_id": "{{ user `subnet_id` }}",
-            "temporary_security_group_source_cidrs": "{{ user `security_group_cidrs` }}",
             "type": "amazon-ebs",
             "user_data_file": "{{ template_dir }}/userdata/userdata.cloud"
         },
         {
-            "ami_description": "STIG-partitioned [*NOT HARDENED*], LVM-enabled, \"minimal\" RHEL 8 AMI, with updates through {{ isotime \"2006-01-02\" }}. Default username `maintuser`. See {{ user `spel_desc_url` }}.",
+            "ami_description": "{{ user `ami_description` }}",
             "ami_groups": "{{ user `ami_groups` }}",
             "ami_name": "{{ user `spel_identifier` }}-{{ build_name }}-{{ user `spel_version` }}.x86_64-gp2",
             "ami_regions": "{{ user `ami_regions` }}",
             "ami_users": "{{ user `ami_users` }}",
-            "associate_public_ip_address": true,
+            "associate_public_ip_address": "{{ user `aws_assoc_public_ip` }}",
             "communicator": "ssh",
-            "ena_support": true,
+            "ena_support": "{{ user `aws_ena_support` }}",
             "force_deregister": "{{ user `ami_force_deregister` }}",
             "instance_type": "{{ user `aws_ec2_instance_type` }}",
-            "launch_block_device_mappings": [
-                {
-                    "delete_on_termination": true,
-                    "device_name": "/dev/sda1",
-                    "volume_size": "{{ user `root_volume_size` }}",
-                    "volume_type": "gp2"
-                }
-            ],
+            "launch_block_device_mappings": [{
+                "delete_on_termination": true,
+                "device_name": "/dev/sda1",
+                "volume_size": "{{ user `root_volume_size` }}",
+                "volume_type": "gp2"
+            }],
             "name": "minimal-rhel-8-hvm",
             "region": "{{ user `aws_region` }}",
+            "run_tags": {
+                "Application": "packer",
+                "Environment": "build",
+                "Name": "{{ user `ami_description` }}-{{ isotime | clean_resource_name }}",
+                "Owner": "{{ user `owner` }}"
+            },
+            "security_group_id": "{{ user `aws_security_group_id` }}",
             "source_ami": "{{ user `source_ami_rhel8_hvm` }}",
-            "sriov_support": true,
+            "aws_sriov_support": "{{ user `aws_sriov_support` }}",
             "ssh_interface": "{{ user `ssh_interface` }}",
             "ssh_port": 22,
             "ssh_pty": true,
@@ -227,16 +243,13 @@
         }
     ],
     "post-processors": [
-        [
-            {
-                "files": [
-                    ".spel/{{ user `spel_version` }}/{{ user `spel_identifier` }}-{{ build_name }}.manifest.txt"
-                ],
-                "type": "artifice"
-            }
-        ],
-        [
-            {
+        [{
+            "files": [
+                ".spel/{{ user `spel_version` }}/{{ user `spel_identifier` }}-{{ build_name }}.manifest.txt"
+            ],
+            "type": "artifice"
+        }],
+        [{
                 "compression_level": 9,
                 "keep_input_artifact": false,
                 "only": [
@@ -256,15 +269,12 @@
                 "version_description": "STIG-partitioned, LVM-enabled, \"minimal\" CentOS 7 image, with updates through {{ isotime \"2006-01-02\" }}. Default username `maintuser`. For details, see https://github.com/plus3it/spel."
             }
         ],
-        [
-            {
-                "output": ".spel/{{ user `spel_version` }}/packer-manifest.json",
-                "type": "manifest"
-            }
-        ]
+        [{
+            "output": ".spel/{{ user `spel_version` }}/packer-manifest.json",
+            "type": "manifest"
+        }]
     ],
-    "provisioners": [
-        {
+    "provisioners": [{
             "destination": "/tmp/retry.sh",
             "only": [
                 "minimal-centos-7-virtualbox"
@@ -530,13 +540,18 @@
         }
     ],
     "variables": {
+        "ami_description": "",
         "ami_force_deregister": "false",
         "ami_groups": "",
         "ami_regions": "",
         "ami_users": "",
+        "aws_assoc_public_ip": "true",
         "aws_ec2_instance_type": "t3.2xlarge",
+        "aws_ena_support": "true",
         "aws_instance_connect": "",
-        "aws_region": "us-east-1",
+        "aws_region": "ap-southeast-2",
+        "aws_security_group_id": "",
+        "aws_sriov_support": "true",
         "azure_client_id": "{{env `ARM_CLIENT_ID`}}",
         "azure_client_secret": "{{env `ARM_CLIENT_SECRET`}}",
         "azure_dest_resource_group": "",
@@ -559,8 +574,8 @@
         "openstack_network_ids": "",
         "openstack_security_group_names": "",
         "openstack_source_image_name": "",
+        "owner": "",
         "root_volume_size": "20",
-        "security_group_cidrs": "0.0.0.0/0",
         "source_ami_centos7_hvm": "ami-090b9dabe1c9f40b3",
         "source_ami_centos8_hvm": "ami-0c5f24fae8f05460e",
         "source_ami_rhel7_hvm": "ami-0394fe9914b475c53",
